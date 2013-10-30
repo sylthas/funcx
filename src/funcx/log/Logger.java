@@ -17,9 +17,7 @@ public abstract class Logger {
         if (factory == null) {
             try {
                 Class.forName("org.apache.log4j.Logger");
-                Class<?> log4jLoggerFactoryClass = Class
-                        .forName("funcx.log.Log4jLoggerFactory");
-                factory = (LoggerFactory) log4jLoggerFactoryClass.newInstance();
+                factory = new Log4jLoggerFactory();
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 factory = new JdkLoggerFactory();
