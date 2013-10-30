@@ -22,4 +22,8 @@ public interface Const {
 	String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
 
 	String DEFALUT_FILE_CONTENT_TYPE = "application/octet-stream";
+
+	String DEFAULT_PROPERTIES_FILE = "funcx.properties";
+
+	String DEFAULT_SCAN_PACKAGE = "scan-package";
 }
