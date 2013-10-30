@@ -1,4 +1,4 @@
-package funcx.mvc.interceptor;
+package funcx.mvc.intercept;
 
 import funcx.mvc.Execution;
 

@@ -1,6 +1,6 @@
 package funcx.mvc;
 
-import funcx.mvc.interceptor.InterceptorChain;
+import funcx.mvc.intercept.InterceptorChain;
 
 /**
  * FuncX 拦截器
