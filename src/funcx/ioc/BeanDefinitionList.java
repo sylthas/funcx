@@ -79,7 +79,7 @@ public final class BeanDefinitionList {
             id = clazz.getAnnotation(Repository.class).value();
         }
         // 如果没有设置Bean ID 则按照类名称转换 UserDao --> userDao
-        if (id == null && "".equals(id)) {
+        if (id == null || "".equals(id)) {
             String className = clazz.getName();
             className = className.substring(className.lastIndexOf(".") + 1);
             id = className.substring(0, 1).toLowerCase()

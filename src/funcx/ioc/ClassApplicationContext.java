@@ -138,12 +138,29 @@ public class ClassApplicationContext {
 		return null;
 	}
 
-	/** 获取单例Bean **/
+	/**
+	 * 获取单例Bean
+	 * 
+	 * <p>
+	 * 从内存中获取,方法线程安全
+	 * 
+	 * @param key
+	 * @return
+	 */
 	public Object getBean(String key) {
 		return BeanMapping.get(key);
 	}
 
-	/** 获取原型Bean **/
+	/**
+	 * 获取原型Bean
+	 * 
+	 * <p>
+	 * new 一个对象,线程安全
+	 * 
+	 * @param key
+	 * @param proto 原型标识
+	 * @return
+	 */
 	public Object getBean(String key, boolean proto) {
 		if (proto) {
 			BeanDefinition beanDefine = BeanDefinitionList
@@ -155,7 +172,12 @@ public class ClassApplicationContext {
 		}
 	}
 
-	/** 获取指定注解的JavaBean **/
+	/**
+	 * 获取指定注解的JavaBean
+	 * 
+	 * @param annotation 注解
+	 * @return
+	 */
 	public Object[] getBean(Class<? extends Annotation> annotation) {
 		List<Object> list = new ArrayList<Object>();
 		if (annotation.isAnnotation()) {
@@ -171,10 +193,16 @@ public class ClassApplicationContext {
 		return list.toArray(new Object[list.size()]);
 	}
 
+	/**
+	 * IOC注解以外的Class
+	 * 
+	 * @return
+	 */
 	public Set<Class<?>> getClasses() {
 		return beans;
 	}
 
+	/** 销毁 **/
 	public void distroy() {
 		beans.clear();
 		BeanFactory.clear();

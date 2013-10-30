@@ -1,35 +1,22 @@
 package funcx;
 
-import funcx.mvc.annotation.RequestMapping;
-import funcx.mvc.dispath.URLMatcher;
+import funcx.ioc.ClassApplicationContext;
+import fx.web.TContrl;
+
 
 public class Test {
 	public static void main(String[] args) {
-		Object o = new D();
-		D d = D.class.cast(o);
-		System.out.println(d.getId());
+		ClassApplicationContext act = ClassApplicationContext.getInstance();
+		TContrl t = (TContrl) act.getBean("tContrl");
+		TContrl t2 = (TContrl) act.getBean("tContrl");
+		TContrl t3 = (TContrl) act.getBean("tContrl", true);
+		TContrl t4 = (TContrl) act.getBean("tContrl", true);
+		System.out.println(t.hashCode());
+		System.out.println(t2.hashCode());
+		System.out.println(t3.hashCode());
+		System.out.println(t4.hashCode());
+		t3.execute();
+		t4.execute();
 
 	}
-}
-
-class D {
-	int id = 0;
-	String name = null;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 }
