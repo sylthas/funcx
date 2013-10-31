@@ -1,5 +1,6 @@
 package funcx.log;
 
+import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 
 /**
@@ -16,11 +17,22 @@ public class JdkLogger extends Logger {
     JdkLogger(Class<?> clazz) {
         log = java.util.logging.Logger.getLogger(clazz.getName());
         clazzName = clazz.getName();
+        setFormatter();
     }
 
     JdkLogger(String name) {
         log = java.util.logging.Logger.getLogger(name);
         clazzName = name;
+        setFormatter();
+    }
+
+    private void setFormatter() {
+        ConsoleHandler ch = new ConsoleHandler();
+        FuncxFormatter formatter = new FuncxFormatter();
+        ch.setFormatter(formatter);
+        log.addHandler(ch);
+        log.setUseParentHandlers(false);
+        log.log(Level.WARNING, "You are using default simple JdkLogger! Don't use it in Production environment!");
     }
 
     public void debug(String message) {

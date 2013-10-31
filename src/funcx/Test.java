@@ -1,22 +1,17 @@
 package funcx;
 
-import funcx.ioc.ClassApplicationContext;
-import fx.web.TContrl;
-
+import funcx.log.JdkLoggerFactory;
+import funcx.log.Logger;
+import funcx.util.Utils;
 
 public class Test {
 	public static void main(String[] args) {
-		ClassApplicationContext act = ClassApplicationContext.getInstance();
-		TContrl t = (TContrl) act.getBean("tContrl");
-		TContrl t2 = (TContrl) act.getBean("tContrl");
-		TContrl t3 = (TContrl) act.getBean("tContrl", true);
-		TContrl t4 = (TContrl) act.getBean("tContrl", true);
-		System.out.println(t.hashCode());
-		System.out.println(t2.hashCode());
-		System.out.println(t3.hashCode());
-		System.out.println(t4.hashCode());
-		t3.execute();
-		t4.execute();
+		System.out.println(Utils.getWebRootPath());
+		test();
+	}
 
+	static void test() {
+		Logger log = new JdkLoggerFactory().getLogger(Test.class);
+		log.info("xxx", new RuntimeException("这是测试异常"));
 	}
 }
