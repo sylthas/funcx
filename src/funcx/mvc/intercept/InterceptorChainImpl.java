@@ -17,11 +17,11 @@ public class InterceptorChainImpl implements InterceptorChain {
     private int index = 0;
     private Object result = null;
 
-    InterceptorChainImpl(Interceptor[] interceptors) {
+    public InterceptorChainImpl(Interceptor[] interceptors) {
         this.intercptors = interceptors;
     }
 
-    Object getResult() {
+    public Object getResult() {
         return result;
     }
 

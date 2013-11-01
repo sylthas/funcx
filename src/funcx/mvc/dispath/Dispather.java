@@ -1,5 +1,6 @@
 package funcx.mvc.dispath;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import funcx.comm.Converter;
 import funcx.ioc.ClassApplicationContext;
 import funcx.log.Logger;
 import funcx.mvc.Config;
@@ -17,10 +22,17 @@ import funcx.mvc.annotation.ExceptionHandle;
 import funcx.mvc.annotation.Intercept;
 import funcx.mvc.annotation.RequestMapping;
 import funcx.mvc.contrl.Controller;
+import funcx.mvc.contrl.ControllerContext;
 import funcx.mvc.exception.URLMatchException;
 import funcx.mvc.execution.DefaultExceptionHandler;
 import funcx.mvc.execution.ExceptionHandler;
+import funcx.mvc.execution.Execution;
 import funcx.mvc.intercept.Interceptor;
+import funcx.mvc.intercept.InterceptorChainImpl;
+import funcx.mvc.render.Renderer;
+import funcx.mvc.render.TextRenderer;
+import funcx.mvc.template.TemplateFactory;
+import funcx.mvc.template.impl.JspTemplateFactory;
 
 /**
  * FuncX 分发器
@@ -44,8 +56,103 @@ public class Dispather {
 
 	public void init(Config config) {
 		log.info("Init dispather...");
-		// servletContext = config.getServletContext();
+		servletContext = config.getServletContext();
 		initComponents();
+		initTemplateFactory(config);
+	}
+
+	/** 服务入口 **/
+	public boolean service(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String url = request.getRequestURI().substring(
+				request.getContextPath().length());
+		if (request.getCharacterEncoding() == null) {
+			request.setCharacterEncoding("utf-8");
+		}
+		if (log.isDebugEnabled()) {
+			log.debug("handler for uri : " + url);
+		}
+		Execution exec = null;
+		// 匹配映射
+		for (URLMatcher matcher : this.urlMatchers) {
+			String[] args = matcher.getMatchParams(url);
+			if (args != null && args.length > 0) {
+				Controller contrl = this.urlCtrl.get(matcher);
+				// URI参数注入方法
+				Object[] arguments = new Object[args.length];
+				for (int i = 0; i < args.length; i++) {
+					Class<?> type = contrl.arguments[i];
+					if (type.equals(String.class))
+						arguments[i] = args[i];
+					else
+						arguments[i] = Converter.parse(args[i], type);
+				}
+				exec = new Execution(request, response, contrl, arguments);
+				break;
+			}
+		}
+		if (exec != null) {
+			handleExecution(exec, request, response);
+		}
+		return exec != null;
+	}
+
+	/** 处理执行 **/
+	void handleExecution(Execution exec, HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// 初始化控制器上下文
+		ControllerContext.set(this.servletContext, request, response);
+		try {
+			// DataSourceFactory.setThreadConnection(); TODO JDBC
+			InterceptorChainImpl chains = new InterceptorChainImpl(interceptors);
+			chains.doChain(exec);
+			Object result = chains.getResult();
+			handleResult(result, request, response);
+		} catch (Exception ex) {
+			handleException(request, response, ex);
+		} finally {
+			ControllerContext.remove();
+			// DataSourceFactory.freeThreadConnection(); TODO JDBC
+		}
+	}
+
+	/** 处理异常 **/
+	void handleException(HttpServletRequest request,
+			HttpServletResponse response, Exception ex)
+			throws ServletException, IOException {
+		try {
+			exceptionHandler.handle(request, response, ex);
+		} catch (ServletException e) {
+			throw e;
+		} catch (IOException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new ServletException(e);
+		}
+	}
+
+	/** 执行结果渲染 **/
+	void handleResult(Object result, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		if (result == null)
+			return;
+		if (result instanceof Renderer) {
+			Renderer r = (Renderer) result;
+			r.render(this.servletContext, request, response);
+			return;
+		}
+		if (result instanceof String) {
+			String s = (String) result;
+			if (s.startsWith("redirect:")) {
+				response.sendRedirect(request.getContextPath()
+						+ s.substring("redirect:".length()));
+				return;
+			}
+			new TextRenderer(s).render(servletContext, request, response);
+			return;
+		}
+		throw new ServletException("Can't execute return type '"
+				+ result.getClass().getName() + "'.");
 	}
 
 	/** 初始化组件 **/
@@ -127,5 +234,27 @@ public class Dispather {
 						+ method.toGenericString() + "]");
 			}
 		}
+	}
+
+	/** 初始化模板 **/
+	void initTemplateFactory(Config config) {
+		String name = config.getInitParameter("template");
+		if (name == null) {
+			name = JspTemplateFactory.class.getName();
+			log.info("No template factory specified. Default to '" + name
+					+ "'.");
+		}
+		TemplateFactory tf = TemplateFactory.createTemplateFactory(name);
+		tf.init(config);
+		log.info("Template factory '" + tf.getClass().getName()
+				+ "' init complete.");
+		TemplateFactory.setTemplateFactory(tf);
+	}
+
+	/** 销毁 **/
+	public void destroy() {
+		log.info("Destroy Dispatcher ...");
+		URLMapping.getMapping().clear();
+		act.distroy();
 	}
 }
