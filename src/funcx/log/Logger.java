@@ -21,6 +21,7 @@ public abstract class Logger {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 factory = new JdkLoggerFactory();
+                factory.getLogger(Logger.class).warn("You are using default simple JdkLogger! Don't use it in Production environment!");
             }
         }
     }

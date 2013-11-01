@@ -32,61 +32,60 @@ public class JdkLogger extends Logger {
         ch.setFormatter(formatter);
         log.addHandler(ch);
         log.setUseParentHandlers(false);
-        log.log(Level.WARNING, "You are using default simple JdkLogger! Don't use it in Production environment!");
     }
 
     public void debug(String message) {
         log.logp(Level.FINE, clazzName,
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
+                Thread.currentThread().getStackTrace()[2].getMethodName(),
                 message);
     }
 
     public void debug(String message, Throwable t) {
         log.logp(Level.FINE, clazzName,
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
+                Thread.currentThread().getStackTrace()[2].getMethodName(),
                 message, t);
     }
 
     public void info(String message) {
         log.logp(Level.INFO, clazzName,
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
+                Thread.currentThread().getStackTrace()[2].getMethodName(),
                 message);
     }
 
     public void info(String message, Throwable t) {
         log.logp(Level.INFO, clazzName,
-                Thread.currentThread().getStackTrace()[1].getMethodName(),
+                Thread.currentThread().getStackTrace()[2].getMethodName(),
                 message, t);
     }
 
     public void warn(String message) {
         log.logp(Level.WARNING, clazzName, Thread.currentThread()
-                .getStackTrace()[1].getMethodName(), message);
+                .getStackTrace()[2].getMethodName(), message);
     }
 
     public void warn(String message, Throwable t) {
         log.logp(Level.WARNING, clazzName, Thread.currentThread()
-                .getStackTrace()[1].getMethodName(), message, t);
+                .getStackTrace()[2].getMethodName(), message, t);
     }
 
     public void error(String message) {
         log.logp(Level.SEVERE, clazzName, Thread.currentThread()
-                .getStackTrace()[1].getMethodName(), message);
+                .getStackTrace()[2].getMethodName(), message);
     }
 
     public void error(String message, Throwable t) {
         log.logp(Level.SEVERE, clazzName, Thread.currentThread()
-                .getStackTrace()[1].getMethodName(), message, t);
+                .getStackTrace()[2].getMethodName(), message, t);
     }
 
     public void fatal(String message) {
         log.logp(Level.SEVERE, clazzName, Thread.currentThread()
-                .getStackTrace()[1].getMethodName(), message);
+                .getStackTrace()[2].getMethodName(), message);
     }
 
     public void fatal(String message, Throwable t) {
         log.logp(Level.SEVERE, clazzName, Thread.currentThread()
-                .getStackTrace()[1].getMethodName(), message, t);
+                .getStackTrace()[2].getMethodName(), message, t);
     }
 
     public boolean isDebugEnabled() {

@@ -1,9 +1,11 @@
-package funcx.mvc;
+package funcx.mvc.execution;
 
 import java.lang.reflect.InvocationTargetException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import funcx.mvc.contrl.Controller;
 
 /**
  * FuncX 执行器

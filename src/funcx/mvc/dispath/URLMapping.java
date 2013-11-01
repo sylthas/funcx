@@ -3,7 +3,7 @@ package funcx.mvc.dispath;
 import java.util.HashMap;
 import java.util.Map;
 
-import funcx.mvc.Controller;
+import funcx.mvc.contrl.Controller;
 
 /**
  * URL映射存储

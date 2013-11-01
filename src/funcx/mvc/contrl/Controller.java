@@ -1,4 +1,4 @@
-package funcx.mvc;
+package funcx.mvc.contrl;
 
 import java.lang.reflect.Method;
 

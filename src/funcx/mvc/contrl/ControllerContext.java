@@ -1,4 +1,4 @@
-package funcx.mvc;
+package funcx.mvc.contrl;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;

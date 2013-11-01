@@ -178,7 +178,7 @@ public class ClassApplicationContext {
      * @param annotation 注解
      * @return
      */
-    public Object[] getBean(Class<? extends Annotation> annotation) {
+    public Object[] getBeans(Class<? extends Annotation> annotation) {
         List<Object> list = new ArrayList<Object>();
         if (annotation.isAnnotation()) {
             Iterator<Class<?>> it = beans.iterator();
@@ -200,6 +200,15 @@ public class ClassApplicationContext {
      */
     public Set<Class<?>> getClasses() {
         return beans;
+    }
+
+    /**
+     * 获取所有Bean
+     * 
+     * @return
+     */
+    public Object[] getBeans() {
+    	return BeanMapping.getBeanMap().values().toArray();
     }
 
     /** 销毁 **/

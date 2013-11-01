@@ -25,7 +25,7 @@ public final class URLMatcher {
 	static final String SAFE_CHARS = "/$-_.+!*'(),";
 	static final String[] EMPTY_PARAM = new String[0];
 
-	final String url;
+	public final String url;
 	Pattern pattern;
 	int[] paramOrder;
 
@@ -149,8 +149,4 @@ public final class URLMatcher {
 		return false;
 	}
 
-	@Override
-	public int hashCode() {
-		return url.hashCode();
-	}
 }
