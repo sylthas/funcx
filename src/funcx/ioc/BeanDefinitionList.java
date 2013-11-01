@@ -69,6 +69,15 @@ public final class BeanDefinitionList {
         return null;
     }
 
+    /** 获取指定类的Bean定义信息 **/
+    public static BeanDefinition getBeanDefinition(Class<?> clazz) {
+    	for (BeanDefinition bd : defineList) {
+            if (bd.getClass().equals(clazz))
+                return bd;
+        }
+        return null;
+    }
+
     static String getBeanId(Class<?> clazz) {
         String id = null;
         if (clazz.isAnnotationPresent(Controller.class)) {

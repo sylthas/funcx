@@ -14,8 +14,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import funcx.comm.Const;
 import funcx.comm.Converter;
+import funcx.comm.FuncXConfig;
 import funcx.ioc.ClassApplicationContext;
+import funcx.jdbc.DBConnHandler;
 import funcx.log.Logger;
 import funcx.mvc.Config;
 import funcx.mvc.annotation.ExceptionHandle;
@@ -78,7 +81,15 @@ public class Dispather {
 			String[] args = matcher.getMatchParams(url);
 			if (args != null && args.length > 0) {
 				Controller contrl = this.urlCtrl.get(matcher);
-				// URI参数注入方法
+				// 如果开启了原型注入 则new一个全新Controller进行参数注入
+				if (FuncXConfig.get(Const.DEFAULT_IOC_PROTOTYPE, "0").equals("1")) {
+					Object bean = act.getBean(contrl.instance.getClass(), true);
+					// 注入参数
+					if (bean != null)
+						ParamInject.inject(bean, ParamInject.getParamsMap(request));
+					contrl = new Controller(bean, contrl.method);
+				}
+				// URL参数注入方法
 				Object[] arguments = new Object[args.length];
 				for (int i = 0; i < args.length; i++) {
 					Class<?> type = contrl.arguments[i];
@@ -103,7 +114,7 @@ public class Dispather {
 		// 初始化控制器上下文
 		ControllerContext.set(this.servletContext, request, response);
 		try {
-			// DataSourceFactory.setThreadConnection(); TODO JDBC
+			DBConnHandler.setCurrentConnection();
 			InterceptorChainImpl chains = new InterceptorChainImpl(interceptors);
 			chains.doChain(exec);
 			Object result = chains.getResult();
@@ -112,7 +123,7 @@ public class Dispather {
 			handleException(request, response, ex);
 		} finally {
 			ControllerContext.remove();
-			// DataSourceFactory.freeThreadConnection(); TODO JDBC
+			DBConnHandler.removeCurrentConnection();
 		}
 	}
 

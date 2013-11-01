@@ -173,6 +173,22 @@ public class ClassApplicationContext {
     }
 
     /**
+     * 获取原型Bean
+     * 
+     * @param clazz 类
+     * @param proto 原型标识
+     * @return
+     */
+    public Object getBean(Class<?> clazz, boolean proto) {
+        BeanDefinition beanDefine = BeanDefinitionList.getBeanDefinition(clazz);
+        if (proto) {
+             Object bean = doInject(beanDefine);
+             return bean;
+        } else {
+            return getBean(beanDefine.getId());
+        }
+    }
+    /**
      * 获取指定注解的JavaBean
      * 
      * @param annotation 注解
@@ -208,7 +224,7 @@ public class ClassApplicationContext {
      * @return
      */
     public Object[] getBeans() {
-    	return BeanMapping.getBeanMap().values().toArray();
+        return BeanMapping.getBeanMap().values().toArray();
     }
 
     /** 销毁 **/

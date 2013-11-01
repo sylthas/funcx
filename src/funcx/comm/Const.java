@@ -26,4 +26,6 @@ public interface Const {
 	String DEFAULT_PROPERTIES_FILE = "funcx.properties";
 
 	String DEFAULT_SCAN_PACKAGE = "scan-package";
+
+	String DEFAULT_IOC_PROTOTYPE = "ioc.proto";
 }
