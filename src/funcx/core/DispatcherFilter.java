@@ -2,6 +2,7 @@ package funcx.core;
 
 import java.io.IOException;
 
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
@@ -25,7 +26,7 @@ import funcx.mvc.dispath.Dispatcher;
  * @author Sylthas
  * 
  */
-public class DispatcherFilter {
+public class DispatcherFilter implements Filter {
 
     private final Logger logger = Logger.getLogger(DispatcherFilter.class);
     private Dispatcher dispatcher;

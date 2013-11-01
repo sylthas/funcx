@@ -79,7 +79,7 @@ public class Dispatcher {
 		// 匹配映射
 		for (URLMatcher matcher : this.urlMatchers) {
 			String[] args = matcher.getMatchParams(url);
-			if (args != null && args.length > 0) {
+			if (args != null) {
 				Controller contrl = this.urlCtrl.get(matcher);
 				// 如果开启了原型注入 则new一个全新Controller进行参数注入
 				if (FuncXConfig.get(Const.DEFAULT_IOC_PROTOTYPE, "0").equals("1")) {
@@ -174,12 +174,12 @@ public class Dispatcher {
 			initRequestMapping(bean);
 		}
 		// 初始化异常处理器
-		Object handler = act.getBeans(ExceptionHandle.class)[0];
-		if (handler == null) {
+		Object[] handler = act.getBeans(ExceptionHandle.class);
+		if (handler == null || handler.length == 0) {
 			this.exceptionHandler = new DefaultExceptionHandler();
 		} else {
-			if (handler instanceof ExceptionHandler)
-				this.exceptionHandler = (ExceptionHandler) handler;
+			if (handler[0] instanceof ExceptionHandler)
+				this.exceptionHandler = (ExceptionHandler) handler[0];
 		}
 		// 初始化拦截器
 		List<Interceptor> interList = new ArrayList<Interceptor>();
