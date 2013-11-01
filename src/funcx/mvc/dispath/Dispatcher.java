@@ -47,9 +47,9 @@ import funcx.mvc.template.impl.JspTemplateFactory;
  * @author Sylthas
  * 
  */
-public class Dispather {
+public class Dispatcher {
 
-	private static Logger log = Logger.getLogger(Dispather.class);
+	private static Logger log = Logger.getLogger(Dispatcher.class);
 	private ClassApplicationContext act = ClassApplicationContext.getInstance();
 	private ServletContext servletContext = null;
 	private ExceptionHandler exceptionHandler = null;

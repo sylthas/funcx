@@ -28,4 +28,8 @@ public interface Const {
 	String DEFAULT_SCAN_PACKAGE = "scan-package";
 
 	String DEFAULT_IOC_PROTOTYPE = "ioc.proto";
+	
+	String GET = "GET";
+	
+	String POST = "POST";
 }

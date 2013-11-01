@@ -1,14 +1,14 @@
 package funcx;
 
 import funcx.log.Logger;
-import funcx.mvc.dispath.Dispather;
+import funcx.mvc.dispath.Dispatcher;
 
 
 
 public class Test {
 	static Logger log = Logger.getLogger(Test.class);
 	public static void main(String[] args) {
-		new Dispather().init(null);
+		new Dispatcher().init(null);
 	}
 
 	static void test() {
