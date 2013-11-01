@@ -1,4 +1,4 @@
-package funcx.core.exception;
+package funcx.comm;
 
 /**
  * 系统异常

@@ -3,7 +3,6 @@ package funcx.comm;
 import java.io.IOException;
 import java.util.Properties;
 
-import funcx.core.exception.FuncXException;
 
 /**
  * FuncX 框架配置文件
