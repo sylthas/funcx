@@ -8,9 +8,9 @@ import funcx.jdbc.exception.TransException;
 import funcx.log.Logger;
 
 /**
- * 简单事务处理<br/>
+ * 简单事务处理
  * 
- * <P>
+ * <p>
  * 借鉴Nutz的事务处理实现思路
  * 
  * @author Sylthas
@@ -37,7 +37,7 @@ public class Trans {
             if (level != old_level)
                 conn.setTransactionIsolation(level);
         } catch (SQLException e) {
-            log.info("事务级别设置失败 - " + e.getMessage());
+            log.info("Trans Level set failed - " + e.getMessage());
         }
     }
 
@@ -48,7 +48,7 @@ public class Trans {
                 this.conn.setTransactionIsolation(old_level);
             }
         } catch (SQLException e) {
-            log.info("提交失败 - " + e.getMessage());
+            log.info("Commit failed - " + e.getMessage());
         }
     }
 
@@ -56,7 +56,7 @@ public class Trans {
         try {
             conn.rollback();
         } catch (SQLException e) {
-            log.info("回滚失败 - " + e.getMessage());
+            log.info("Rollback failed - " + e.getMessage());
         }
     }
 
@@ -65,7 +65,7 @@ public class Trans {
             conn.setAutoCommit(true);
             DBConnHandler.removeCurrentConnection();
         } catch (SQLException e) {
-            log.info("关闭失败 - " + e.getMessage());
+            log.info("Close failed - " + e.getMessage());
         }
     }
 
