@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Sylthas
  * 
  */
-public abstract class Render {
+public abstract class Renderer {
 
     protected String contentType;
 
