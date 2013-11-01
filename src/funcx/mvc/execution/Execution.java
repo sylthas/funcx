@@ -5,7 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import funcx.mvc.annotation.ResponseBody;
 import funcx.mvc.contrl.Controller;
+import funcx.util.Json;
 
 /**
  * FuncX 执行器
@@ -22,20 +24,22 @@ public class Execution {
 
     public final HttpServletRequest request;
     public final HttpServletResponse response;
-    private final Controller controller;
+    private final Controller contrl;
     private final Object[] args;
 
     public Execution(HttpServletRequest request, HttpServletResponse response,
-            Controller controller, Object[] args) {
+            Controller contrl, Object[] args) {
         this.request = request;
         this.response = response;
-        this.controller = controller;
+        this.contrl = contrl;
         this.args = args;
     }
 
     public Object execute() throws Exception {
         try {
-            Object result = controller.method.invoke(controller.instance, args);
+            Object result = contrl.method.invoke(contrl.instance, args);
+            if (contrl.method.isAnnotationPresent(ResponseBody.class))
+            	return Json.toJson(result);
             return result;
         } catch (InvocationTargetException e) {
             Throwable t = e.getCause();

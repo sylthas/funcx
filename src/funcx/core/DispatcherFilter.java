@@ -29,14 +29,17 @@ public class DispatcherFilter {
 
     private final Logger logger = Logger.getLogger(DispatcherFilter.class);
     private Dispatcher dispatcher;
+    private String encoding = null;
 
     public void init(final FilterConfig filterConfig) throws ServletException {
         logger.info("Init DispatcherFilter...");
         this.dispatcher = new Dispatcher();
+        this.encoding = filterConfig.getInitParameter("encoding");
         this.dispatcher.init(new Config() {
             public String getInitParameter(String name) {
                 return filterConfig.getInitParameter(name);
             }
+
             public ServletContext getServletContext() {
                 return filterConfig.getServletContext();
             }
@@ -47,6 +50,8 @@ public class DispatcherFilter {
             FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
+        request.setCharacterEncoding(encoding != null ? encoding
+                : Const.DEFAULT_ENCODING);
         String method = request.getMethod();
         if (Const.GET.equals(method) || Const.POST.equals(method)) {
             if (!dispatcher.service(request, response))

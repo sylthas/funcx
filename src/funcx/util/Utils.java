@@ -1,5 +1,7 @@
 package funcx.util;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 共通辅助工具类
  * 
@@ -61,4 +63,52 @@ public class Utils {
         }
         return prop;
     }
+
+    /**
+     * 获取请求URI
+     * 
+     * <p>
+     * 去除项目路径
+     * 
+     * @param request
+     * @return
+     */
+    public static String getRequestURI(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        return uri.substring(request.getContextPath().length());
+    }
+
+    /**
+     * 获取用户接入IP
+     * 
+     * @param request
+     * @return
+     */
+    public static String getIpAddress(HttpServletRequest request) {
+        String ip = request.getHeader("x-forwarded-for");
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        if (ip.equals("0:0:0:0:0:0:0:1")) {
+            ip = "Local";
+        }
+        return ip;
+    }
+
+    /**
+     * 获取项目真实路径
+     * 
+     * @param request
+     * @return
+     */
+    public static String getRealPath(HttpServletRequest request) {
+        return request.getSession().getServletContext().getRealPath("/");
+    }
+
 }
