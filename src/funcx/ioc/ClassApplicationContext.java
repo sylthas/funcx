@@ -10,7 +10,7 @@ import java.util.Set;
 
 import funcx.comm.BeanWrapper;
 import funcx.comm.Const;
-import funcx.comm.FuncXConfig;
+import funcx.core.FuncXConfig;
 import funcx.ioc.annotation.Controller;
 import funcx.ioc.annotation.Repository;
 import funcx.ioc.annotation.Service;

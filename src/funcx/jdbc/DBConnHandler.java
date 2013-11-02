@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import funcx.comm.FuncXConfig;
+import funcx.core.FuncXConfig;
 import funcx.jdbc.exception.JdbcException;
 import funcx.jdbc.util.DBUtils;
 

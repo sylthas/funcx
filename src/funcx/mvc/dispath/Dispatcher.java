@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import funcx.comm.Const;
 import funcx.comm.Converter;
-import funcx.comm.FuncXConfig;
+import funcx.core.FuncXConfig;
 import funcx.ioc.ClassApplicationContext;
 import funcx.jdbc.DBConnHandler;
 import funcx.log.Logger;
