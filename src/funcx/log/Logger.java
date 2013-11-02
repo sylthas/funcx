@@ -19,7 +19,6 @@ public abstract class Logger {
                 Class.forName("org.apache.log4j.Logger");
                 factory = new Log4jLoggerFactory();
             } catch (Exception e) {
-                System.out.println(e.getMessage());
                 factory = new JdkLoggerFactory();
                 factory.getLogger(Logger.class).warn("You are using default simple JdkLogger! Don't use it in Production environment!");
             }
