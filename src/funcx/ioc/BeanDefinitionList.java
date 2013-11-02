@@ -72,7 +72,7 @@ public final class BeanDefinitionList {
     /** 获取指定类的Bean定义信息 **/
     public static BeanDefinition getBeanDefinition(Class<?> clazz) {
     	for (BeanDefinition bd : defineList) {
-            if (bd.getClass().equals(clazz))
+            if (bd.getClassName().equals(clazz.getName()))
                 return bd;
         }
         return null;
