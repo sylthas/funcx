@@ -82,11 +82,13 @@ public class Dispatcher {
 			if (args != null) {
 				Controller contrl = this.urlCtrl.get(matcher);
 				// 如果开启了原型注入 则new一个全新Controller进行参数注入
-				if (FuncXConfig.get(Const.DEFAULT_IOC_PROTOTYPE, "0").equals("1")) {
+				if (FuncXConfig.get(Const.DEFAULT_IOC_SCOPE, "singleton")
+						.equals("prototype")) {
 					Object bean = act.getBean(contrl.instance.getClass(), true);
 					// 注入参数
 					if (bean != null)
-						ParamInject.inject(bean, ParamInject.getParamsMap(request));
+						ParamInject.inject(bean,
+								ParamInject.getParamsMap(request));
 					contrl = new Controller(bean, contrl.method);
 				}
 				// URL参数注入方法

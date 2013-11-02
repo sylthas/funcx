@@ -11,25 +11,21 @@ package funcx.comm;
  */
 public interface Const {
 
-	String EMPTY = "";
+    String DEFAULT_ENCODING = "UTF-8";
 
-	String WHITE_SPACE = " ";
+    String DEFAULT_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
-	String DEFAULT_ENCODING = "UTF-8";
+    String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
 
-	String DEFAULT_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    String DEFALUT_FILE_CONTENT_TYPE = "application/octet-stream";
 
-	String DEFAULT_DATE_PATTERN = "yyyy-MM-dd";
+    String DEFAULT_PROPERTIES_FILE = "app.properties";
 
-	String DEFALUT_FILE_CONTENT_TYPE = "application/octet-stream";
+    String DEFAULT_SCAN_PACKAGE = "scan-package";
 
-	String DEFAULT_PROPERTIES_FILE = "funcx.properties";
-
-	String DEFAULT_SCAN_PACKAGE = "scan-package";
-
-	String DEFAULT_IOC_PROTOTYPE = "ioc.proto";
-	
-	String GET = "GET";
-	
-	String POST = "POST";
+    String DEFAULT_IOC_SCOPE = "ioc-scope";
+    
+    String GET = "GET";
+    
+    String POST = "POST";
 }
