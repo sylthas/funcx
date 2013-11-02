@@ -24,6 +24,10 @@ public interface Const {
     String DEFAULT_SCAN_PACKAGE = "scan-package";
 
     String DEFAULT_IOC_SCOPE = "ioc-scope";
+
+    String IOC_SCOPE_SINGLETON = "singleton";
+
+    String IOC_SCOPE_PROTOTYPE = "prototype";
     
     String GET = "GET";
     

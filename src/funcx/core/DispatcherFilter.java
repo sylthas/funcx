@@ -51,8 +51,11 @@ public class DispatcherFilter implements Filter {
             FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
-        request.setCharacterEncoding(encoding != null ? encoding
-                : Const.DEFAULT_ENCODING);
+        // 如果未设置字符集
+        if (request.getCharacterEncoding() == null) {
+            request.setCharacterEncoding(encoding != null ? encoding
+                    : Const.DEFAULT_ENCODING);
+        }
         String method = request.getMethod();
         if (Const.GET.equals(method) || Const.POST.equals(method)) {
             if (!dispatcher.service(request, response))
